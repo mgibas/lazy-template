@@ -1,0 +1,28 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../lazy-template.html">
+
+<dom-module id="demo-app">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+        </style>
+        current value: {{myObject.value}}
+        <paper-input label="test" value="{{test}}"></paper-input>
+        <lazy-template on="{{test}}" equals="start">
+          <test-element data-lazy-href="test-element.html"></test-element>
+          <other-element></other-element>
+        </lazy-template>
+    </template>
+    <script>
+        Polymer({
+            is: 'demo-app',
+            properties: {
+                test: String,
+                notify: true
+            }
+        });
+    </script>
+</dom-module>

@@ -1,0 +1,57 @@
+<!-- <link rel="import" href="../polymer/polymer.html"> -->
+
+<!--
+An element providing lazy loading selected elements on given event
+
+Example:
+
+    <lazy-template load-when-equal></lazy-template>
+
+@demo
+-->
+<dom-module id="lazy-template">
+
+    <style>
+
+    </style>
+
+    <template>
+        <content></content>
+    </template>
+
+</dom-module>
+
+<script>
+    Polymer({
+        is: 'lazy-template',
+        properties: {
+            on: {
+                type: Object,
+                observer: '_onChanged'
+            },
+            load: String,
+            equals: Object,
+        },
+
+        attached: function() {
+            var children = this.getEffectiveChildren();
+            this.childrenToLoad = [];
+            for (var i = 0; i < children.length; i++) {
+                if (!Polymer.isInstance(children[i])) this.childrenToLoad.push(children[i]);
+            }
+        },
+        _onChanged: function(value) {
+            if (value == this.equals)
+                this._load();
+        },
+        _load: function() {
+            while (this.childrenToLoad.length > 0) {
+                var childrenToLoad = this.childrenToLoad.pop();
+                this.importHref(href);
+                this.fire('lazy-template-href-loaded', {
+                    href: href
+                });
+            }
+        }
+    });
+</script>
