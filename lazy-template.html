@@ -1,7 +1,7 @@
-<!-- <link rel="import" href="../polymer/polymer.html"> -->
+<link rel="import" href="../polymer/polymer.html">
 
 <!--
-An element providing lazy loading selected elements on given event
+An element providing lazy loading selected elements
 
 Example:
 
@@ -10,24 +10,18 @@ Example:
 @demo
 -->
 <dom-module id="lazy-template">
-
-    <style>
-
-    </style>
-
     <template>
         <content></content>
     </template>
-
 </dom-module>
 
 <script>
     Polymer({
         is: 'lazy-template',
         properties: {
-            on: {
+            loadOn: {
                 type: Object,
-                observer: '_onChanged'
+                observer: '_loadOnChanged'
             },
             load: String,
             equals: Object,
@@ -40,7 +34,7 @@ Example:
                 if (!Polymer.isInstance(children[i])) this.childrenToLoad.push(children[i]);
             }
         },
-        _onChanged: function(value) {
+        _loadOnChanged: function(value) {
             if (value == this.equals)
                 this._load();
         },
