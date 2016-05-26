@@ -1,51 +1,89 @@
 <link rel="import" href="../polymer/polymer.html">
-
 <!--
-An element providing lazy loading selected elements
+`lazy-template` is an element that enables declarative lazy loading of wrapped children
 
 Example:
 
-    <lazy-template load-when-equal></lazy-template>
+    <lazy-template load-if={{booleanExpression}}>
+      <element-to-load data-lazy-href="../element-to-load.html"></element-to-load>
+    </lazy-template>
 
 @demo
 -->
+
 <dom-module id="lazy-template">
     <template>
         <content></content>
     </template>
-</dom-module>
-
-<script>
-    Polymer({
-        is: 'lazy-template',
-        properties: {
-            loadOn: {
-                type: Object,
-                observer: '_loadOnChanged'
+    <script>
+        Polymer({
+            is: 'lazy-template',
+            properties: {
+                /**
+                 * Load is triggered base on this property (on `true`)
+                 */
+                loadIf: {
+                    type: Boolean,
+                    observer: '_loadIfChanged'
+                },
+                /**
+                 * `True` when loading. Can be used ie. for `paper-spinner`
+                 */
+                loading: {
+                    type: Boolean,
+                    value: false,
+                    notify: true
+                },
+                _loadingCounter: {
+                    type: Number,
+                    value: 0,
+                    observer: '_loadingCounterChanged'
+                }
             },
-            load: String,
-            equals: Object,
-        },
 
-        attached: function() {
-            var children = this.getEffectiveChildren();
-            this.childrenToLoad = [];
-            for (var i = 0; i < children.length; i++) {
-                if (!Polymer.isInstance(children[i])) this.childrenToLoad.push(children[i]);
+            attached: function() {
+                var children = this.getEffectiveChildren();
+                this.childrenToLoad = [];
+                for (var i = 0; i < children.length; i++) {
+                    if (!Polymer.isInstance(children[i]))
+                        this.childrenToLoad.push(children[i]);
+                }
+            },
+            /**
+             * Main function that do all the job. Can be called explicitly.
+             */
+            load: function() {
+                if (this.childrenToLoad.length === 0) return;
+                this._loadingCounter = this.childrenToLoad.length;
+
+                while (this.childrenToLoad.length > 0) {
+                    var childToLoad = this.childrenToLoad.pop();
+
+                    if (Polymer.isInstance(childToLoad)) {
+                        this._loadingCounter--;
+                        continue;
+                    }
+
+                    var href = childToLoad.dataset.lazyHref;
+                    if (!href) {
+                        this._loadingCounter--;
+                        continue;
+                    }
+
+                    this.importHref(href, function(e) {
+                        this._loadingCounter--;
+                    }, function(e) {
+                        this._loadingCounter--;
+                    });
+                }
+            },
+            _loadIfChanged: function(value) {
+                if (value)
+                    this.load();
+            },
+            _loadingCounterChanged: function(counter) {
+                this.loading = counter > 0;
             }
-        },
-        _loadOnChanged: function(value) {
-            if (value == this.equals)
-                this._load();
-        },
-        _load: function() {
-            while (this.childrenToLoad.length > 0) {
-                var childrenToLoad = this.childrenToLoad.pop();
-                this.importHref(href);
-                this.fire('lazy-template-href-loaded', {
-                    href: href
-                });
-            }
-        }
-    });
-</script>
+        });
+    </script>
+</dom-module>

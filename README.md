@@ -1,3 +1,3 @@
-# lazy-template
+# \<lazy-template\>
 
-An element providing lazy loading selected elements.
+`lazy-template` is an element that enables declarative lazy loading of wrapped children

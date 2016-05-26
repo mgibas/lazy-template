@@ -1,30 +1,15 @@
 {
-    "name": "lazy-template",
-    "version": "0.0.1",
-    "authors": [
-        "gibasmaciej"
-    ],
-    "description": "An element that lazy loads its children.",
-    "keywords": [
-        "web-component",
-        "web-components",
-        "polymer",
-        "lazy-loading"
-    ],
-    "main": "lazy-template.html",
-    "license": "http://polymer.github.io/LICENSE.txt",
-    "homepage": "https://github.com/mgibas/lazy-template/",
-    "ignore": [
-        "/.*",
-        "/test/",
-        "/demo/"
-    ],
-    "dependencies": {
-        "polymer": "Polymer/polymer#^1.0.0"
-    },
-    "devDependencies": {
-        "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
-        "paper-input": "^1.1.11",
-        "web-component-tester": "*"
-    }
+  "name": "lazy-template",
+  "main": "lazy-template.html",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.4.0"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
+    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^1.0.0",
+    "web-component-tester": "^4.0.0",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0",
+    "paper-input": "^1.1.11",
+    "paper-spinner": "^1.1.1"
+  }
 }

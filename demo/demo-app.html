@@ -1,20 +1,34 @@
-<link rel="import" href="../bower_components/polymer/polymer.html">
-<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+<link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+<link rel="import" href="../../paper-input/paper-input.html">
+<link rel="import" href="../../paper-spinner/paper-spinner.html">
 <link rel="import" href="../lazy-template.html">
 
+<style is="custom-style" include="demo-pages-shared-styles"></style>
+
 <dom-module id="demo-app">
+    <style include="demo-pages-shared-styles"></style>
     <template>
-        <style>
-            :host {
-                display: block;
-            }
-        </style>
-        current value: {{myObject.value}}
-        <paper-input label="test" value="{{test}}"></paper-input>
-        <lazy-template on="{{test}}" equals="start">
-          <test-element data-lazy-href="test-element.html"></test-element>
-          <other-element></other-element>
-        </lazy-template>
+        <div class="vertical-section-container centered">
+            <h3>Basic lazy-template Demo</h3>
+            <demo-snippet>
+                <paper-input label="Type 'load' to triger loading" value="{{test1}}"></paper-input>
+                <lazy-template load-if="{{shouldLoad(test1)}}">
+                    <test-element data-lazy-href="test-element.html"></test-element>
+                </lazy-template>
+            </demo-snippet>
+        </div>
+
+        <div class="vertical-section-container centered">
+            <h3>Using `loading` propperty</h3>
+            <demo-snippet>
+                <paper-input label="Type 'load' to triger loading" value="{{test2}}"></paper-input>
+                <lazy-template load-if="{{shouldLoad(test2)}}" loading="{{loadingTemplate}}">
+                    <paper-spinner active="{{loadingTemplate}}"></paper-spinner>
+                    <other-element data-lazy-href="other-element.html"></other-element>
+                </lazy-template>
+            </demo-snippet>
+        </div>
     </template>
     <script>
         Polymer({
@@ -22,6 +36,9 @@
             properties: {
                 test: String,
                 notify: true
+            },
+            shouldLoad: function(value) {
+                return value === 'load';
             }
         });
     </script>
