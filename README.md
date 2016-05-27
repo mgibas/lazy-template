@@ -4,3 +4,5 @@
 
 _[Demo and API docs](http://mgibas.github.io/lazy-template/components/lazy-template/)_
 
+# Bower
+```bower install lazy-template --save```
